@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import BookAppBar from "./components/BookAppBar";
+import Home from "./components/Home";
+// import AdminDashboard from './components/AdminDashboard';
+// import UserDashboard from './components/UserDashboard';
+// import BookDetails from './components/BookDetails';
+// import Logout from './components/Logout';
+// import Register from './components/Register';
+// import MediaQueryExample from './components/MediaQueryExample';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <BookAppBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        {/* <Route path="/admin" component={AdminDashboard} />
+        <Route path="/user" component={UserDashboard} />
+        <Route path="/book/:id" component={BookDetails} /> 
+        <Route path="/media-query" component={MediaQueryExample} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
