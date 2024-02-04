@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { signup } from "../features/auth/authSlice";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,19 +14,55 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+const Signup = () => {
+  const dispatch = useDispatch();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+
+  const navigate = useNavigate();
+
+  const handleSignup = async () => {
+    // Generate a 4-digit unique ID for the user
+    const userId = Math.floor(1000 + Math.random() * 9000);
+
+    // Combine user data
+    const userData = {
+      id: userId,
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+    };
+
+    // Dispatch signup action
+    dispatch(signup(userData));
+    navigate("/sign-in");
+
+    // Save user data in the local JSON server using Axios
+    try {
+      const response = await axios.post(
+        "http://localhost:3002/users",
+        userData
+      );
+
+      console.log("User data saved in the local JSON server:", response.data);
+    } catch (error) {
+      console.error("Error saving user data:", error);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    handleSignup();
   };
 
   return (
@@ -54,6 +92,13 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  type="hidden"
+                  id="role"
+                  name="role"
+                  value={role}
+                  inputProps={{ style: { display: "none" } }}
+                />
+                <TextField
                   autoComplete="given-name"
                   name="firstName"
                   required
@@ -61,6 +106,8 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -71,6 +118,8 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -81,6 +130,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -92,6 +143,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -113,7 +166,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end" sx={{ mb: 4 }}>
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/sign-in" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -123,4 +176,6 @@ export default function SignUp() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default Signup;

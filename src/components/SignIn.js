@@ -1,4 +1,7 @@
-import * as React from "react";
+// SignIn.js
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,19 +15,46 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
+const SignIn = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      // Fetch user data based on email
+      const response = await axios.get(
+        `http://localhost:3002/users?email=${email}`
+      );
+
+      const users = response.data[0];
+
+      if (users && users.email === email) {
+        // Redirect based on the user's role
+        if (users.role === "admin") {
+          navigate("/admin-dashboard");
+        } else if (users.role === "user") {
+          navigate("/user-dashboard");
+        }
+        // Add more roles as needed
+
+        // Store user ID in local storage
+        localStorage.setItem("userId", users.id);
+        localStorage.setItem("role", users.role);
+      } else {
+        console.log("Invalid credentials");
+        // Handle invalid credentials (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      // Handle error (e.g., show an error message)
+    }
   };
 
   return (
@@ -33,7 +63,7 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 9,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -60,6 +90,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -70,11 +102,13 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -100,4 +134,6 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignIn;

@@ -5,25 +5,23 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import BookAppBar from "./components/BookAppBar";
 import Home from "./components/Home";
-// import AdminDashboard from './components/AdminDashboard';
-// import UserDashboard from './components/UserDashboard';
-// import BookDetails from './components/BookDetails';
-// import Logout from './components/Logout';
-// import Register from './components/Register';
-// import MediaQueryExample from './components/MediaQueryExample';
+import AdminDashboard from "./components/AdminDashboard";
+import UserDashboard from "./components/UserDashboard";
+import Dashboard from "./components/dashboard/Dashboard";
+import Layout from "./components/dashboard/Layout";
 
 function App() {
   return (
     <BrowserRouter>
       <BookAppBar />
+      {/* <Dashboard /> */}
+      {/* <Layout /> */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        {/* <Route path="/admin" component={AdminDashboard} />
-        <Route path="/user" component={UserDashboard} />
-        <Route path="/book/:id" component={BookDetails} /> 
-        <Route path="/media-query" component={MediaQueryExample} /> */}
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
