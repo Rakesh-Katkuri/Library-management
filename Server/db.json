@@ -1,3 +1,20 @@
 {
-  "users": []
+  "users": [
+    {
+      "id": "b132",
+      "firstName": "Katkuri",
+      "lastName": "Rakesh",
+      "email": "rakesh25@gmail.com",
+      "password": "rk123",
+      "role": "user"
+    },
+    {
+      "id": "r112",
+      "firstName": "nex",
+      "lastName": "gen",
+      "email": "nx@gmail.com",
+      "password": "nx123",
+      "role": "admin"
+    }
+  ]
 }

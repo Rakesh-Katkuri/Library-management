@@ -80,4 +80,9 @@ npx create-react-app book-library-app
 Install Dependencies:
 npm install @reduxjs/toolkit react-redux react-router-dom react-media-query @mui/material @emotion/react @emotion/styled @mui/icons-material
 
+##-Redux Toolkit Query is a data fetching library that simplifies data management in React applications. 
+Here's a step-by-step guide
+npm install react-query react-query/devtools
+
+
 

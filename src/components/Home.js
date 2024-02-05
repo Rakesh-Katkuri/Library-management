@@ -33,13 +33,18 @@ function Copyright() {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const defaultTheme = createTheme();
+//new
 const Home = () => {
+  // const userId = localStorage.getItem("userId")
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
 
       <main>
         <Container sx={{ py: 8 }} maxWidth="md">
+          <Typography gutterBottom variant="h5" component="h2">
+            Home Page
+          </Typography>
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
@@ -78,22 +83,6 @@ const Home = () => {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </Box>
-      {/* End footer */}
     </ThemeProvider>
   );
 };
